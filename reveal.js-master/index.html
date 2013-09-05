@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>GIT - guia de supervivencia</title>
+
+		<meta name="description" content="Breve guia de supervivencia para GIT">
+		<meta name="author" content="Manuel Dominguez">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/beige.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+                    <h1>GIT</h1>
+                    <h3>guia de supervivencia</h3>
+                </section>
+				<section>
+					<h2>Introducción</h2>
+                    <ul>
+                        <li>Sistema de control de versiones distribuido</li>
+                            <ul>
+                            <li>Cada desarrollador tiene una copia local del repositorio</li>
+                            <li>Multiples backups</li>
+                            </ul>
+                        <li>Enfocado a la rapidez y el rendimiento</li>
+                        <li>Modelo de ramas</li>
+                            <ul>
+                            <li>Cambio rápido de contexto</li>
+                            <li>Basadas en función (pro, pre, test)</li>
+                            <li>Desarrollo de nuevas funcionalidades</li>
+                            </ul>
+                    </ul>
+				</section>
+                <section>
+                    <h2>Nociones básicas</h2>
+                </section>
+                <section>
+                    <section>
+                        <h2>Configurar git</h2>
+                    </section>
+                    <section>
+                        <h2>git config</h2>
+                        <pre><code data-trim contenteditable>
+$ git config --global user.name "Your Name Here"
+$ git config --global user.email "your_email@example.com"
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>configuración de repositorio</h2>
+                        <pre><code data-trim contenteditable>
+$ git config user.name "Your Name Here"
+$ git config user.email "your_email@example.com"
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>cache de password</h2>
+                        <pre><code data-trim contenteditable>
+$ git config --global credential.helper cache
+$ git config --global credential.helper 'cache --timeout=3600'
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>más configuración</h2>
+                        <ul>
+                            <li>alias</li>
+                            <li>merge.tool</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Crear un repositorio</h2>
+                    </section>
+                    <section>
+                        <h2>git init</h2>
+                        <pre><code data-trim contenteditable>
+$ mkdir git_repo
+$ cd git_repo/
+/git_repo $ git init
+Initialized empty Git repository in /git_repo/.git/
+/git_repo (master)$
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>git status</h2>
+                        <pre><code data-trim contenteditable>
+/git_repo (master)$ git status
+# On branch master
+#
+# Initial commit
+#
+nothing to commit (create/copy files and use "git add" to track)
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Añadir ficheros</h2>
+                    </section>
+                    <section>
+                        <h2>git add</h2>
+                        <p>* files untracked</p>
+                        <pre><code data-trim contenteditable>
+/git_repo (master)$ touch readme.md
+/git_repo (master*)$ git status
+# On branch master
+#
+# Initial commit
+#
+# Untracked files:
+#   (use "git add &lt;file&gt;..." to include in what will be committed)
+#
+#   readme.md
+nothing added to commit but untracked files present
+(use "git add" to track)
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>git add</h2>
+                        <p>* files staged</p>
+                        <pre><code data-trim contenteditable>
+/git_repo (master*)$ git add readme.md
+/git_repo (master*)$ git status
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use "git rm --cached &lt;file&gt;..." to unstage)
+#
+#   new file:   readme.md
+#
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>git commit</h2>
+                        <p>* files commited</p>
+                        <pre><code data-trim contenteditable>
+/git_repo (master*)$ git commit -m "Initial commit"
+[master (root-commit) 801c9ed] Initial commit
+ 0 files changed
+ create mode 100644 readme.md
+/git_repo (master)$ git status
+# On branch master
+nothing to commit (working directory clean)
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>.gitignore</h2>
+                        <ul>
+                            <li>Relativo a la ruta donde se crea</li>
+                            <li>Admite comodines</li>
+                            <li>No ignora ficheros 'tracked'</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>.gitignore</h2>
+                        <h3>Ejemplo de fichero</h3>
+                        <pre><code data-trim contenteditable>
+# Compiled source #
+*.class
+*.dll
+
+# Packages #
+*.rar
+*.zip
+
+# Logs and databases #
+*.log
+
+# OS generated files #
+.DS_Store
+Thumbs.db
+                        </code></pre>
+                        <p>
+                            Extraido de <a href="https://help.github.com/articles/ignoring-files">GitHub - Ignoring files</a>
+                        </p>
+                    </section>
+                </section>
+                <section>
+                    <h2>Repositorio remoto</h2>
+                </section>
+            </div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
